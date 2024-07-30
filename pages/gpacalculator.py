@@ -1,73 +1,64 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
-import json
 
-def load_lottie_animation(file_path):
-    with open(file_path, "r") as file:
-        animation_data = json.load(file)
-    st_lottie(animation_data, speed=1, width=400, height=400, key="animation")
+# Initialize session state for class count
+if 'class_count' not in st.session_state:
+    st.session_state.class_count = 1
 
-animation_file_path = "assets/gpacalculator.json"
-load_lottie_animation(animation_file_path)
+def add_class():
+    st.session_state.class_count += 1
 
-if 'first_time_running' not in st.session_state:
-    st.session_state.first_time_running = True
-
-if st.session_state.first_time_running:
-    @st.dialog("Instructions")
-    def instructions():
-        st.markdown("""
-            **Welcome to the GPA Calculator!**  
-            Here are some instructions to help you get started:
-
-            - **Add Class**: Click the "Add Class" button to add a new class entry.
-            - **Remove Class**: Click the "Remove Class" button to remove the last class entry.
-            - **Class Name**: Enter the name of the class.
-            - **Class Grade**: Enter the grade for the class (0-100). The GPA will be calculated based on this grade.
-            - **Calculate GPA**: Click the "Calculate GPA" button to compute and display your GPA.
-        """)
-
-    instructions()
-    st.session_state.first_time_running = False
+def remove_class():
+    if st.session_state.class_count > 1:
+        st.session_state.class_count -= 1
 
 st.title("GPA Calculator")
 
-if 'class_info' not in st.session_state:
-    st.session_state.class_info = [{"class_name": "", "class_grade": 70}]
+# Radio selector for GPA type
+gpa_type = st.radio("Select GPA Type", ["Unweighted GPA", "Weighted GPA"])
 
-def add_class():
-    st.session_state.class_info.append({"class_name": "", "class_grade": 70})
+# Collect class information
+class_grades = []
+class_levels = []
 
-def remove_class():
-    if st.session_state.class_info:
-        st.session_state.class_info.pop()
+for i in range(1, st.session_state.class_count + 1):
+    with st.expander(f"Class {i}"):
+        class_name = st.text_input(f"Class Name {i} (Optional)", key=f"class_name_{i}")
+        if gpa_type == "Weighted GPA":
+            class_level = st.selectbox(f"Class Level {i}", ["Standard", "Honors", "AP/IB"], key=f"class_level_{i}")
+            class_levels.append(class_level)
+        class_grade = st.number_input(f"Class Grade {i}", min_value=0, max_value=100, value=100, key=f"class_grade_{i}")
+        class_grades.append(class_grade)
 
-for i, class_data in enumerate(st.session_state.class_info):
-    with st.expander(f"Class {i+1}"):
-        class_data["class_name"] = st.text_input(f"Class Name {i+1}", key=f"class_name_{i}")
-        class_data["class_grade"] = st.number_input(f"Class Grade {i+1}", min_value=0, max_value=100, value=70, step=1, key=f"class_grade_{i}")
-
-def calculate_gpa():
-    total_gpa = 0
-    num_classes = len(st.session_state.class_info)
-    
-    for class_data in st.session_state.class_info:
-        grade = class_data["class_grade"]
-        gpa = 4.0 - (100 - grade) * 0.05
-        
-        total_gpa += gpa
-    
-    avg_gpa = total_gpa / num_classes if num_classes > 0 else 0
-    st.session_state.calculated_gpa = avg_gpa
-
+# Buttons to add or remove classes
 col1, col2 = st.columns([1, 1])
 with col1:
-    st.button("Add Class", on_click=add_class)
+    if st.button("Add Class"):
+        add_class()
 with col2:
-    st.button("Remove Class", on_click=remove_class)
+    if st.button("Remove Class"):
+        remove_class()
 
-st.button("Calculate GPA", on_click=calculate_gpa)
+# GPA calculation logic
+if gpa_type == "Unweighted GPA":
+    if class_grades:
+        gpa_points = [(4.0 - (100 - grade) * 0.05) for grade in class_grades]
+        average_gpa = sum(gpa_points) / len(gpa_points)
+        st.write(f"Unweighted GPA: {average_gpa:.2f}")
 
-if 'calculated_gpa' in st.session_state:
-    st.success(f"Your calculated GPA is: {st.session_state.calculated_gpa:.2f}")
-    st.balloons()
+elif gpa_type == "Weighted GPA":
+    if class_grades and len(class_grades) == len(class_levels):
+        gpa_points = []
+        for grade, level in zip(class_grades, class_levels):
+            base_gpa = 4.0 - (100 - grade) * 0.05
+            if level == "Honors":
+                base_gpa += 0.5
+            elif level == "AP/IB":
+                base_gpa += 1.0
+            # Calculate GPA, no need to cap here, just make sure no negative values
+            gpa_points.append(max(base_gpa, 0))
+        
+        # Average GPA for all classes
+        average_gpa = sum(gpa_points) / len(gpa_points)
+        st.write(f"Weighted GPA: {average_gpa:.2f}")
+    else:
+        st.error("Please ensure that all classes have a level selected.")
