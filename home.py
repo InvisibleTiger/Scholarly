@@ -12,12 +12,59 @@ def saveData(user_data):
     with open("pages/data/userandpassword.yaml", "w") as file:
         yaml.safe_dump(user_data, file)
 
+def loadIncomeExpenseData():
+    try:
+        with open("pages/data/incomeandexpense.yaml", "r") as file:
+            return yaml.safe_load(file)
+    except FileNotFoundError:
+        return {}
+
+def saveIncomeExpenseData(data):
+    with open("pages/data/incomeandexpense.yaml", "w") as file:
+        yaml.safe_dump(data, file)
+
+def loadFlashcardsData():
+    try:
+        with open("pages/data/flashcards.yaml", "r") as file:
+            return yaml.safe_load(file)
+    except FileNotFoundError:
+        return {}
+
+def saveFlashcardsData(data):
+    with open("pages/data/flashcards.yaml", "w") as file:
+        yaml.safe_dump(data, file)
+
+def loadCalendarData():
+    try:
+        with open("pages/data/calendar.yaml", "r") as file:
+            return yaml.safe_load(file)
+    except FileNotFoundError:
+        return {}
+
+def saveCalendarData(data):
+    with open("pages/data/calendar.yaml", "w") as file:
+        yaml.safe_dump(data, file)
+
 def signUp(username, password):
     if username in users:
         return "Username already exists. Please choose a different username."
     else:
         users[username] = password
         saveData(users)
+        
+        # Initialize income and expense data for new user
+        income_expense_data = loadIncomeExpenseData()
+        income_expense_data[username] = []
+        saveIncomeExpenseData(income_expense_data)
+
+        flashcards_data = loadFlashcardsData()
+        flashcards_data[username] = []
+        saveFlashcardsData(flashcards_data)
+
+        calendar_data = loadCalendarData()
+        calendar_data[username] = []
+        saveCalendarData(calendar_data)
+
         st.balloons()
         return "Sign Up successful! You can now Sign In."
 
