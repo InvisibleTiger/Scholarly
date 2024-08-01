@@ -1,3 +1,4 @@
 streamlit-lottie
 pandas
 matplotlib
+PyYAML
