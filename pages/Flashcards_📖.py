@@ -1,6 +1,15 @@
 import streamlit as st
 import yaml
 import os
+from streamlit_lottie import st_lottie
+import json
+
+st.set_page_config(page_title="Flashcards", layout="centered", page_icon="📖")
+
+
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
 
 # Path to the YAML file
 yaml_path = 'pages/data/flashcards.yaml'
@@ -31,7 +40,7 @@ if 'current_user' not in st.session_state:
     st.session_state.current_user = None
 
 if st.session_state.current_user is None:
-    st.write("Please sign in to access your flashcards.")
+    st.warning("Please sign in to access your flashcards.")
 else:
     # Load or create the flashcards YAML file
     flashcards_data = load_or_create_yaml(yaml_path, {})
@@ -42,6 +51,9 @@ else:
 
     # Display the flashcards
     st.title("Flashcard Maker")
+
+    flashcards = load_lottiefile("pages/assets/flashcards.json")
+    st_lottie(flashcards, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     
     st.header("Your Flashcards")
     if flashcards_data[st.session_state.current_user]:

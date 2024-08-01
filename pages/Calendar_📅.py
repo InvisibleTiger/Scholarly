@@ -1,28 +1,33 @@
 import streamlit as st
 import yaml
-import os
 from datetime import datetime
+from streamlit_lottie import st_lottie
+import json
 
-# Function to load activities from YAML file
+st.set_page_config(page_title="Calendar", layout="centered", page_icon="📅")
+
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
+    
 def load_activities():
     with open("pages/data/calendar.yaml", "r") as file:
         return yaml.safe_load(file)
 
-# Function to save activities to YAML file
 def save_activities(data):
     with open("pages/data/calendar.yaml", "w") as file:
         yaml.dump(data, file)
 
-# Ensure the user is signed in
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the calendar.")
 else:
     st.title("Student Activity Calendar")
 
-    # Load existing activities
+    calendar = load_lottiefile("pages/assets/calendar.json")
+    st_lottie(calendar, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+
     activities = load_activities().get(st.session_state.current_user, [])
 
-    # Display the current activities
     st.subheader("Current Activities")
     for i, activity in enumerate(activities):
         title = activity['activity']
@@ -44,7 +49,6 @@ else:
             else:
                 st.write(f"{title}")
 
-    # Form to add a new activity
     st.subheader("Add New Activity")
     with st.form(key='add_activity_form'):
         new_activity = st.text_input("Activity")
@@ -57,7 +61,6 @@ else:
             st.success("Activity added successfully!")
             st.rerun()
 
-    # Check if the current time matches any activity time
     current_time = datetime.now().strftime('%H:%M')
     for activity in activities:
         if activity['time'] == current_time:

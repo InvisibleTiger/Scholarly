@@ -4,11 +4,22 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
+from streamlit_lottie import st_lottie
+import json
+
+st.set_page_config(page_title="Income And Expense Tracker", layout="centered", page_icon="💵")
+
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
 
 if 'current_user' not in st.session_state or st.session_state.current_user is None:
-    st.write("Please sign in to access this page.")
+    st.warning("Please sign in to access the tracker.")
 else:
     st.title("Income And Expense Tracker 💵")
+
+    money = load_lottiefile("pages/assets/money.json")
+    st_lottie(money, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
 
     # File path for YAML data
     filename = "pages/data/incomeandexpense.yaml"

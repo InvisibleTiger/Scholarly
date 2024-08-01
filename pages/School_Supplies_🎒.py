@@ -1,6 +1,14 @@
 import streamlit as st
 import yaml
 import os
+from streamlit_lottie import st_lottie
+import json
+
+st.set_page_config(page_title="School Supplies", layout="centered", page_icon="🎒")
+
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
 
 # Path to the YAML file
 SUPPLIES_PATH = 'pages/data/schoolsupplies.yaml'
@@ -25,6 +33,9 @@ def display_supplies(supplies, grade):
 def main():
     st.title('School Supplies Recommendations')
 
+    supplies = load_lottiefile("pages/assets/supplies.json")
+    st_lottie(supplies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+
     # Load the supplies data
     if os.path.exists(SUPPLIES_PATH):
         supplies = load_supplies(SUPPLIES_PATH)
@@ -37,5 +48,7 @@ def main():
     else:
         st.error(f"Supplies file not found at {SUPPLIES_PATH}")
 
-if __name__ == "__main__":
+if 'current_user' not in st.session_state or not st.session_state['current_user']:
+    st.warning("Please sign in to access the supplies list.")
+else:
     main()

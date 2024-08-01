@@ -1,1 +1,3 @@
-bozo: []
+bozo:
+- activity: "test bozo \u2705"
+  time: '12:56'
