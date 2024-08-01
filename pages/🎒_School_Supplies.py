@@ -4,21 +4,29 @@ import os
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title="School Supplies", layout="centered", page_icon="🎒")
+st.set_page_config(page_title="School Supplies by Scholarly", layout="centered", page_icon="🎒")
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
-# Path to the YAML file
 SUPPLIES_PATH = 'pages/data/schoolsupplies.yaml'
 
-# Load supplies from the YAML file
+@st.dialog("🎒 School Supplies by Scholarly")
+def instructions():
+    st.markdown("""    
+    ### How to Use the App:
+    1. **Select Grade Level**: Choose your grade level from the dropdown menu.
+    2. **View Supplies**: See the recommended school supplies for the selected grade level.
+    3. **Details**: Each item includes a quantity and description for better understanding.
+    
+    Prepare for school with the right supplies!
+    """)
+
 def load_supplies(path):
     with open(path, 'r') as file:
         return yaml.safe_load(file)
 
-# Function to display the recommended supplies
 def display_supplies(supplies, grade):
     st.header(f"Recommended Supplies for {grade}")
     if grade in supplies:
@@ -31,22 +39,26 @@ def display_supplies(supplies, grade):
         st.write("No supplies information available for this grade level.")
 
 def main():
-    st.title('School Supplies Recommendations')
+    st.title('🎒 School Supplies by Scholarly')
 
     supplies = load_lottiefile("pages/assets/supplies.json")
     st_lottie(supplies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
 
-    # Load the supplies data
     if os.path.exists(SUPPLIES_PATH):
         supplies = load_supplies(SUPPLIES_PATH)
         
-        # Select grade level
         grade = st.selectbox("Select Your Grade Level", options=["K-2", "3-5", "6-8", "9-12"])
         
-        # Display the supplies for the selected grade
         display_supplies(supplies, grade)
     else:
         st.error(f"Supplies file not found at {SUPPLIES_PATH}")
+
+if 'school_supplies_instructions_shown' not in st.session_state:
+    st.session_state['school_supplies_instructions_shown'] = False
+
+if not st.session_state['school_supplies_instructions_shown']:
+    instructions()
+    st.session_state['school_supplies_instructions_shown'] = True
 
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the supplies list.")

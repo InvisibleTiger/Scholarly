@@ -7,13 +7,23 @@ def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
-# Streamlit page configuration
-st.set_page_config(page_title="News", layout="centered", page_icon="📰")
+st.set_page_config(page_title="News by Scholarly", layout="centered", page_icon="📰")
+
+@st.dialog("📰 News by Scholarly")
+def instructions():
+    st.markdown("""    
+    ### How to Use the App:
+    1. **View News Articles**: Browse through the latest news articles from various sources.
+    2. **Read More**: Click on the links provided to read the full articles.
+    3. **Source Information**: Check the source and publication date for each article.
+
+    Stay informed with the latest news!
+    """)
 
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the news.")
 else:
-    st.title("News 📰")
+    st.title("📰 News by Scholarly")
 
     news = load_lottiefile("pages/assets/news.json")
     st_lottie(news, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
@@ -27,7 +37,7 @@ else:
             articles.extend(response.json()["articles"])
         return articles
 
-    api_key = "7fc5e184f4604c81822c59a1a2908876"
+    api_key = st.secrets["News_Key"]
     news_sources = ["bbc-news", "cnn", "reuters", "the-new-york-times", "the-wall-street-journal", "the-washington-post", "time", "usa-today", "vice-news", "wired"]
 
     articles = fetch_news(api_key, news_sources)
@@ -43,3 +53,10 @@ else:
             st.image(article['urlToImage'], use_column_width=True)
         else:
             st.write("No image available.")
+
+if 'news_instructions_shown' not in st.session_state:
+    st.session_state['news_instructions_shown'] = False
+
+if not st.session_state['news_instructions_shown']:
+    instructions()
+    st.session_state['news_instructions_shown'] = True

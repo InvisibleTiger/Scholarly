@@ -4,11 +4,23 @@ import re
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title="Cooking Recipies", layout="centered", page_icon="🍽️")
+st.set_page_config(page_title="Cooking Recipes by Scholarly", layout="centered", page_icon="🍽️")
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
+
+@st.dialog("🍽️ Cooking Recipes by Scholarly")
+def instructions():
+    st.markdown("""
+    
+    ### How to Use the App:
+    1. **Enter Ingredients**: Input the ingredients you have in your kitchen, separated by commas.
+    2. **Find Recipes**: Click 'Find Recipes' to get recipe recommendations based on the ingredients you provided.
+    3. **View Recipes**: Browse through the recipes, view the ingredients used, and follow the instructions to cook your meal.
+    
+    Enjoy your cooking experience!
+    """)
 
 def clean_html_tags(text):
     if text is None:
@@ -16,13 +28,20 @@ def clean_html_tags(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
-if 'current_user' not in st.session_state or not st.session_state['current_user']:
-    st.warning("Please sign in to access the recipies.")
-else:
-    st.title('Cooking Recipes 🍽️')
+if 'recipes_instructions_shown' not in st.session_state:
+    st.session_state['recipes_instructions_shown'] = False
 
-    recipies = load_lottiefile("pages/assets/cooking.json")
-    st_lottie(recipies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+if not st.session_state['recipes_instructions_shown']:
+    instructions()
+    st.session_state['recipes_instructions_shown'] = True
+
+if 'current_user' not in st.session_state or not st.session_state['current_user']:
+    st.warning("Please sign in to access the recipes.")
+else:
+    st.title('🍽️ Cooking Recipes by Scholarly')
+
+    recipes = load_lottiefile("pages/assets/cooking.json")
+    st_lottie(recipes, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     
     st.header('Ingredients')
 
@@ -30,8 +49,7 @@ else:
     st.write("Enter the ingredients you have in your kitchen, separated by commas in the text input. Click 'Find Recipes' to get recommendations based on the provided ingredients.")
     user_input = st.text_input('Enter Ingredients (comma-separated)')
 
-    # Replace 'YOUR_API_KEY' with your Spoonacular API key
-    API_KEY = 'e6eec33a959a4b2285baff0d0a7e99d8'
+    API_KEY = st.secrets["Food_Key"]
 
     if st.button('Find Recipes'):
         ingredients = user_input

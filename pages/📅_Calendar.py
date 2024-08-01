@@ -4,12 +4,24 @@ from datetime import datetime
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title="Calendar", layout="centered", page_icon="📅")
+st.set_page_config(page_title="Calendar by Scholarly", layout="centered", page_icon="📅")
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
+
+@st.dialog("📅 Calendar by Scholarly")
+def instructions():
+    st.markdown("""    
+    ### How to Use the App:
+    1. **View Current Activities**: See a list of all your scheduled activities.
+    2. **Manage Activities**: You can remove activities or mark them as completed. Completed activities will show a checkmark (✅).
+    3. **Add New Activity**: Use the form to add a new activity with a specific time.
+    4. **Notifications**: You'll get a balloon notification and a warning message when it's time for any activity.
     
+    Stay organized and manage your schedule efficiently!
+    """)
+
 def load_activities():
     with open("pages/data/calendar.yaml", "r") as file:
         return yaml.safe_load(file)
@@ -18,10 +30,17 @@ def save_activities(data):
     with open("pages/data/calendar.yaml", "w") as file:
         yaml.dump(data, file)
 
+if 'calendar_instructions_shown' not in st.session_state:
+    st.session_state['calendar_instructions_shown'] = False
+
+if not st.session_state['calendar_instructions_shown']:
+    instructions()
+    st.session_state['calendar_instructions_shown'] = True
+
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the calendar.")
 else:
-    st.title("Student Activity Calendar")
+    st.title("📅 Calendar by Scholarly")
 
     calendar = load_lottiefile("pages/assets/calendar.json")
     st_lottie(calendar, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)

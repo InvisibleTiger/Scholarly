@@ -60,7 +60,6 @@ def signUp(username, password):
         users[username] = password
         saveData(users)
         
-        # Initialize income and expense data for new user
         income_expense_data = loadIncomeExpenseData()
         income_expense_data[username] = []
         saveIncomeExpenseData(income_expense_data)
@@ -109,18 +108,11 @@ def sign_in_page():
 def check_things_out():
     st.subheader("Rethinking Student Productivity.")
 
-    graphic1, text1 = st.columns([1, 2])
-    with graphic1:
-        st_lottie(gpacalculator, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text1:
-        st.subheader("GPA Calculator")
-        st.write("A database that recommends books to read based on genre and lexile level.")
-
-    graphic2, text2 = st.columns([1, 2])
-    with graphic2:
-        st_lottie(calendar, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text2:
-        st.subheader("Calendar")
+    graphic9, text9 = st.columns([1, 2])
+    with graphic9:
+        st_lottie(timer, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text9:
+        st.subheader("Timer")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
     graphic3, text3 = st.columns([1, 2])
@@ -130,11 +122,11 @@ def check_things_out():
         st.subheader("Cooking Recipies")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
-    graphic4, text4 = st.columns([1, 2])
-    with graphic4:
-        st_lottie(flashcards, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text4:
-        st.subheader("Flashcards")
+    graphic8, text8 = st.columns([1, 2])
+    with graphic8:
+        st_lottie(supplies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text8:
+        st.subheader("School Supplies")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
     graphic5, text5 = st.columns([1, 2])
@@ -144,6 +136,28 @@ def check_things_out():
         st.subheader("Income and Expense Tracker")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
+    graphic2, text2 = st.columns([1, 2])
+    with graphic2:
+        st_lottie(calendar, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text2:
+        st.subheader("Calendar")
+        st.write("A database that recommends books to read based on genre and lexile level.")
+
+    graphic4, text4 = st.columns([1, 2])
+    with graphic4:
+        st_lottie(flashcards, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text4:
+        st.subheader("Flashcards")
+        st.write("A database that recommends books to read based on genre and lexile level.")
+
+    
+    graphic7, text7 = st.columns([1, 2])
+    with graphic7:
+        st_lottie(resources, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text7:
+        st.subheader("Resources")
+        st.write("A database that recommends books to read based on genre and lexile level.")
+
     graphic6, text6 = st.columns([1, 2])
     with graphic6:
         st_lottie(news, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
@@ -151,25 +165,11 @@ def check_things_out():
         st.subheader("News")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
-    graphic7, text7 = st.columns([1, 2])
-    with graphic7:
-        st_lottie(resources, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text7:
-        st.subheader("Resources")
-        st.write("A database that recommends books to read based on genre and lexile level.")
-    
-    graphic8, text8 = st.columns([1, 2])
-    with graphic8:
-        st_lottie(supplies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text8:
-        st.subheader("School Supplies")
-        st.write("A database that recommends books to read based on genre and lexile level.")
-
-    graphic9, text9 = st.columns([1, 2])
-    with graphic9:
-        st_lottie(timer, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
-    with text9:
-        st.subheader("Pomodoro Timer")
+    graphic1, text1 = st.columns([1, 2])
+    with graphic1:
+        st_lottie(gpacalculator, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
+    with text1:
+        st.subheader("GPA Calculator")
         st.write("A database that recommends books to read based on genre and lexile level.")
 
     
