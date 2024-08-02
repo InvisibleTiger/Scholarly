@@ -32,6 +32,13 @@ def remove_class():
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the GPA calculator.")
 else:
+    if 'gpa_instructions_shown' not in st.session_state:
+        st.session_state['gpa_instructions_shown'] = False
+
+    if not st.session_state['gpa_instructions_shown']:
+        instructions()
+        st.session_state['gpa_instructions_shown'] = True
+
     st.title("🧮 GPA Calculator by Scholarly")
 
     calculator = load_lottiefile("pages/assets/gpacalculator.json")
@@ -80,10 +87,3 @@ else:
             st.write(f"Weighted GPA: {average_gpa:.2f}")
         else:
             st.error("Please ensure that all classes have a level selected.")
-
-if 'gpa_instructions_shown' not in st.session_state:
-    st.session_state['gpa_instructions_shown'] = False
-
-if not st.session_state['gpa_instructions_shown']:
-    instructions()
-    st.session_state['gpa_instructions_shown'] = True

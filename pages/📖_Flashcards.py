@@ -42,19 +42,19 @@ def save_to_yaml(filename, data):
     with open(filename, "w") as file:
         yaml.dump(data, file)
 
-if 'flashcards_instructions_shown' not in st.session_state:
-    st.session_state['flashcards_instructions_shown'] = False
-
-if not st.session_state['flashcards_instructions_shown']:
-    instructions()
-    st.session_state['flashcards_instructions_shown'] = True
-
 if 'current_user' not in st.session_state:
     st.session_state.current_user = None
 
 if st.session_state.current_user is None:
     st.warning("Please sign in to access your flashcards.")
 else:
+    if 'flashcards_instructions_shown' not in st.session_state:
+        st.session_state['flashcards_instructions_shown'] = False
+
+    if not st.session_state['flashcards_instructions_shown']:
+        instructions()
+        st.session_state['flashcards_instructions_shown'] = True
+
     flashcards_data = load_or_create_yaml(yaml_path, {})
 
     if st.session_state.current_user not in flashcards_data:

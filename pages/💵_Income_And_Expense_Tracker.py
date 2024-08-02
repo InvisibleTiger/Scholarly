@@ -42,16 +42,16 @@ def get_current_month_year_tag():
     now = datetime.now()
     return now.strftime("%B %Y")
 
-if 'income_expense_instructions_shown' not in st.session_state:
-    st.session_state['income_expense_instructions_shown'] = False
-
-if not st.session_state['income_expense_instructions_shown']:
-    instructions()
-    st.session_state['income_expense_instructions_shown'] = True
-
 if 'current_user' not in st.session_state or st.session_state.current_user is None:
     st.warning("Please sign in to access the tracker.")
 else:
+    if 'income_expense_instructions_shown' not in st.session_state:
+        st.session_state['income_expense_instructions_shown'] = False
+
+    if not st.session_state['income_expense_instructions_shown']:
+        instructions()
+        st.session_state['income_expense_instructions_shown'] = True
+
     st.title("💵 Income And Expense Tracker by Scholarly")
 
     money = load_lottiefile("pages/assets/money.json")

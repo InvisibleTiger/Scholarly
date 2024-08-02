@@ -30,16 +30,16 @@ def save_activities(data):
     with open("pages/data/calendar.yaml", "w") as file:
         yaml.dump(data, file)
 
-if 'calendar_instructions_shown' not in st.session_state:
-    st.session_state['calendar_instructions_shown'] = False
-
-if not st.session_state['calendar_instructions_shown']:
-    instructions()
-    st.session_state['calendar_instructions_shown'] = True
-
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the calendar.")
 else:
+    if 'calendar_instructions_shown' not in st.session_state:
+        st.session_state['calendar_instructions_shown'] = False
+
+    if not st.session_state['calendar_instructions_shown']:
+        instructions()
+        st.session_state['calendar_instructions_shown'] = True
+
     st.title("📅 Calendar by Scholarly")
 
     calendar = load_lottiefile("pages/assets/calendar.json")

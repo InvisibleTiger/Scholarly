@@ -23,6 +23,13 @@ def instructions():
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the news.")
 else:
+    if 'news_instructions_shown' not in st.session_state:
+        st.session_state['news_instructions_shown'] = False
+
+    if not st.session_state['news_instructions_shown']:
+        instructions()
+        st.session_state['news_instructions_shown'] = True
+
     st.title("📰 News by Scholarly")
 
     news = load_lottiefile("pages/assets/news.json")
@@ -53,10 +60,3 @@ else:
             st.image(article['urlToImage'], use_column_width=True)
         else:
             st.write("No image available.")
-
-if 'news_instructions_shown' not in st.session_state:
-    st.session_state['news_instructions_shown'] = False
-
-if not st.session_state['news_instructions_shown']:
-    instructions()
-    st.session_state['news_instructions_shown'] = True

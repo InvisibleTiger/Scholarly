@@ -53,14 +53,13 @@ def main():
     else:
         st.error(f"Supplies file not found at {SUPPLIES_PATH}")
 
-if 'school_supplies_instructions_shown' not in st.session_state:
-    st.session_state['school_supplies_instructions_shown'] = False
-
-if not st.session_state['school_supplies_instructions_shown']:
-    instructions()
-    st.session_state['school_supplies_instructions_shown'] = True
-
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the supplies list.")
 else:
+    if 'school_supplies_instructions_shown' not in st.session_state:
+        st.session_state['school_supplies_instructions_shown'] = False
+
+    if not st.session_state['school_supplies_instructions_shown']:
+        instructions()
+        st.session_state['school_supplies_instructions_shown'] = True
     main()

@@ -21,16 +21,16 @@ def instructions():
     Enjoy your productive study time!
     """)
 
-if 'instructions_shown' not in st.session_state:
-    st.session_state['instructions_shown'] = False
-
-if not st.session_state['instructions_shown']:
-    instructions()
-    st.session_state['instructions_shown'] = True
-
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the timer.")
 else:
+    if 'instructions_shown' not in st.session_state:
+        st.session_state['instructions_shown'] = False
+
+    if not st.session_state['instructions_shown']:
+        instructions()
+        
+    st.session_state['instructions_shown'] = True
     st.title("⌛ Timer by Scholarly")
 
     timer = load_lottiefile("pages/assets/timer.json")

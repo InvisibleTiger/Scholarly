@@ -48,14 +48,13 @@ def main():
     else:
         st.error(f"Resources file not found at {RESOURCES_PATH}")
 
-if 'resources_instructions_shown' not in st.session_state:
-    st.session_state['resources_instructions_shown'] = False
-
-if not st.session_state['resources_instructions_shown']:
-    instructions()
-    st.session_state['resources_instructions_shown'] = True
-
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the resources.")
 else:
+    if 'resources_instructions_shown' not in st.session_state:
+        st.session_state['resources_instructions_shown'] = False
+
+    if not st.session_state['resources_instructions_shown']:
+        instructions()
+        st.session_state['resources_instructions_shown'] = True
     main()

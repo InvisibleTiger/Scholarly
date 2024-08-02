@@ -28,16 +28,17 @@ def clean_html_tags(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
-if 'recipes_instructions_shown' not in st.session_state:
-    st.session_state['recipes_instructions_shown'] = False
-
-if not st.session_state['recipes_instructions_shown']:
-    instructions()
-    st.session_state['recipes_instructions_shown'] = True
-
 if 'current_user' not in st.session_state or not st.session_state['current_user']:
     st.warning("Please sign in to access the recipes.")
 else:
+
+    if 'recipes_instructions_shown' not in st.session_state:
+        st.session_state['recipes_instructions_shown'] = False
+
+    if not st.session_state['recipes_instructions_shown']:
+        instructions()
+
+    st.session_state['recipes_instructions_shown'] = True
     st.title('🍽️ Cooking Recipes by Scholarly')
 
     recipes = load_lottiefile("pages/assets/cooking.json")
