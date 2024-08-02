@@ -113,42 +113,42 @@ def check_things_out():
         st_lottie(timer, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text9:
         st.subheader("Timer")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Stay on track and boost productivity with our intuitive Timer App.")
 
     graphic3, text3 = st.columns([1, 2])
     with graphic3:
         st_lottie(cooking, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text3:
         st.subheader("Cooking Recipies")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Transform your pantry into delicious meals with our app that suggests recipes based on available ingredients.")
 
     graphic8, text8 = st.columns([1, 2])
     with graphic8:
         st_lottie(supplies, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text8:
         st.subheader("School Supplies")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Streamline your back-to-school shopping with our app that provides customized school supply lists based on grade level.")
 
     graphic5, text5 = st.columns([1, 2])
     with graphic5:
         st_lottie(money, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text5:
         st.subheader("Income and Expense Tracker")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Take control of your finances with our app that tracks income and expenses, giving you clear insights into your financial health.")
 
     graphic2, text2 = st.columns([1, 2])
     with graphic2:
         st_lottie(calendar, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text2:
         st.subheader("Calendar")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Stay organized and never miss a beat with our calendar app that helps you manage your activities and reminders effortlessly.")
 
     graphic4, text4 = st.columns([1, 2])
     with graphic4:
         st_lottie(flashcards, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text4:
         st.subheader("Flashcards")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Master your study material with ease using our flashcards app, designed for quick creation, easy management, and effective learning.")
 
     
     graphic7, text7 = st.columns([1, 2])
@@ -156,21 +156,21 @@ def check_things_out():
         st_lottie(resources, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text7:
         st.subheader("Resources")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Discover and explore a curated library of resources for various subjects and topics, all in one place.")
 
     graphic6, text6 = st.columns([1, 2])
     with graphic6:
         st_lottie(news, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text6:
         st.subheader("News")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Stay updated with the latest headlines and breaking news from top sources around the world.")
 
     graphic1, text1 = st.columns([1, 2])
     with graphic1:
         st_lottie(gpacalculator, speed=1, reverse=False, loop=True, quality="low", height=None, width=None, key=None)
     with text1:
         st.subheader("GPA Calculator")
-        st.write("A database that recommends books to read based on genre and lexile level.")
+        st.write("Effortlessly calculate your weighted and unweighted GPAs with a tool designed to simplify academic performance tracking.")
 
     
 
