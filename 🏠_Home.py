@@ -3,7 +3,7 @@ import yaml
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title="Home", layout="centered", page_icon="🏠")
+st.set_page_config(page_title="Home by Scholarly", layout="centered", page_icon="🏠")
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
